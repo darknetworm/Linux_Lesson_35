@@ -1,4 +1,5 @@
 ---
+#Установка необходимых пакетов
 - hosts: all
   become: yes
   tasks:
@@ -8,61 +9,69 @@
       - bind
       - bind-utils
       - ntp
-
+#Копирование файла named.zonetransfer.key на хосты с правами 0644
   - name: copy transferkey to all servers and the client
     copy: src=named.zonetransfer.key dest=/etc/named.zonetransfer.key owner=root group=named mode=0644
-
+#Остановка сервиса chronyd
   - name: stop and disable chronyd
     service:
       name: chronyd
       state: stopped
       enabled: false
-
+#Запуск сервиса ntpd
   - name: start and enable ntpd
     service:
       name: ntpd
       state: started
       enabled: true
-
+#Настройка хоста ns01
 - hosts: ns01
   become: yes
   tasks:
+#Копирование конфигурации DNS-сервера
   - name: copy named.conf
     copy: src=master-named.conf dest=/etc/named.conf owner=root group=named mode=0640
+#Копирование файлов с настроками зоны
   - name: copy zones
     copy: src={{ item }} dest=/etc/named/ owner=root group=named mode=0660
     with_fileglob:
       - named.d*
       - named.newdns.lab
+#Копирование файла resolv.conf
   - name: copy resolv.conf to the servers
     template: src=servers-resolv.conf.j2 dest=/etc/resolv.conf owner=root group=root mode=0644
-  
+#Изменение прав каталога /etc/named
   - name: set /etc/named permissions
     file: path=/etc/named owner=root group=named mode=0670
-
+#Перезапуск службы Named и добавление её в автозагрузку
   - name: ensure named is running and enabled
     service: name=named state=restarted enabled=yes
-
+#Настройка хоста ns01
 - hosts: ns02
   become: yes
   tasks:
+#Копирование конфигурации DNS-сервера
   - name: copy named.conf
     copy: src=slave-named.conf dest=/etc/named.conf owner=root group=named mode=0640
+#Копирование файла resolv.conf
   - name: copy resolv.conf to the servers
     template: src=servers-resolv.conf.j2 dest=/etc/resolv.conf owner=root group=root mode=0644
-
+#Изменение прав каталога /etc/named
   - name: set /etc/named permissions
     file: path=/etc/named owner=root group=named mode=0670
-
+#Перезапуск службы Named и добавление её в автозагрузку
   - name: ensure named is running and enabled
     service: name=named state=restarted enabled=yes
-    
+#Настройка кдиентских хостов
 - hosts: clients
   become: yes
   tasks:
+#Копирование файла resolv.conf
   - name: copy resolv.conf to the client
     copy: src=client-resolv.conf dest=/etc/resolv.conf owner=root group=root mode=0644
+#Копирование конфигруационного файла rndc
   - name: copy rndc conf file
     copy: src=rndc.conf dest=/home/vagrant/rndc.conf owner=vagrant group=vagrant mode=0644
+#Настройка сообщения при входе на хост
   - name: copy motd to the client
     copy: src=client-motd dest=/etc/motd owner=root group=root mode=0644
