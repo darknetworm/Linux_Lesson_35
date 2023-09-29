@@ -12,5 +12,5 @@
 
 На серверах настроены зоны: dns.lab, ddns.lab, newdns.lab, обратный dns.lab.rev.  
 Настройка split-DNS заключается в том, что клиентские хосты видят различные зоны DNS:  
-client1 - видит dns.lab и newdns.lab, но в зоне dns.lab только web1;  
-client2 - видит только dns.lab.
+*client1* - видит dns.lab и newdns.lab, но в зоне dns.lab только web1;  
+*client2* - видит только dns.lab.
