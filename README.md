@@ -12,5 +12,18 @@
 
 На серверах настроены зоны: dns.lab, ddns.lab, newdns.lab, обратный dns.lab.rev.  
 Настройка split-DNS заключается в том, что клиентские хосты видят различные зоны DNS:  
-*client1* - видит dns.lab и newdns.lab, но в зоне dns.lab только web1;  
+*client* - видит dns.lab и newdns.lab, но в зоне dns.lab только web1;  
 *client2* - видит только dns.lab.
+
+---
+
+ ### Проверка работоспособности стенда
+
+ Для проверки правильности настройки split-DNS воспользуемся утилитой ping на каждом из клиентских хостов.  
+ ![client](https://github.com/darknetworm/Linux_Lesson_35/assets/82410807/d4383a59-38ba-474e-bae5-ee9b616dc7b5)
+ 
+На хосте client видим доступ к зоне newdns.lab и к хосту web1.dns.lab, при этом доступ к хосту web2.dns.lab отсутствует.
+
+![client2](https://github.com/darknetworm/Linux_Lesson_35/assets/82410807/20356c40-8c9f-47f0-9106-4cc4642e0498)  
+
+На хосте client2 доступ к зоне newdns.lab отсутствует, при этом имеется к хостам web1.dns.lab и web2.dns.lab.
