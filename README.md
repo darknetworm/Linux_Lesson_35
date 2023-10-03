@@ -21,7 +21,7 @@
  ### Проверка работоспособности стенда
 
 Для проверки правильности настройки split-DNS использовалась утилита ping на каждом из клиентских хостов.  
-![client](https://github.com/darknetworm/Linux_Lesson_35/assets/82410807/d4383a59-38ba-474e-bae5-ee9b616dc7b5)
+![client](https://github.com/darknetworm/Linux_Lesson_35/assets/82410807/d4383a59-38ba-474e-bae5-ee9b616dc7b5)  
 Хост client имеет доступ к зоне newdns.lab и к хосту web1.dns.lab, при этом доступ к хосту web2.dns.lab отсутствует.
 
 ![client2](https://github.com/darknetworm/Linux_Lesson_35/assets/82410807/20356c40-8c9f-47f0-9106-4cc4642e0498)  
